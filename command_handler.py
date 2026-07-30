@@ -23,7 +23,7 @@ from config import (
 )
 
 HELP_TEXT = (
-    "🤖 *Commandes disponibles*\n\n"
+    "🤖 COMMANDES DISPONIBLES\n\n"
     "/status — état actuel du bot\n"
     "/pause <minutes> — suspend les alertes\n"
     "/resume — annule la pause\n"
@@ -57,10 +57,11 @@ def _reply(text: str) -> None:
         return
     url = TELEGRAM_SENDMESSAGE_URL_TMPL.format(token=token)
     try:
+        # Pas de parse_mode : le texte peut contenir des caractères issus de
+        # titres de marché imprévisibles -> Markdown casserait le message.
         resp = requests.post(url, json={
             "chat_id": chat_id,
             "text": text,
-            "parse_mode": "Markdown",
         }, timeout=15)
         if resp.status_code != 200:
             print(f"[ERREUR] Telegram a refusé le message ({resp.status_code}) : {resp.text}", file=sys.stderr)
@@ -80,7 +81,7 @@ def _handle_command(text: str, state: dict) -> str:
         )
         severity = overrides.get("min_severity", MIN_SEVERITY_SCORE)
         return (
-            f"📊 *Statut du bot*\n\n"
+            f"📊 STATUT DU BOT\n\n"
             f"Seuil de sévérité minimum : {severity}/10\n"
             f"Pause : {pause_str}\n"
             f"Dernier scan : à l'instant"
