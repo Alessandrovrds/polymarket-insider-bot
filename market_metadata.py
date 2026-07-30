@@ -6,6 +6,7 @@ Utilisé pour : (1) enrichir les alertes déjà détectées, et (2) calculer des
 seuils de détection ADAPTATIFS à la taille de chaque marché (voir config.py).
 """
 from datetime import datetime, timezone
+import time
 import requests
 from config import (
     GAMMA_MARKETS_URL,
@@ -16,6 +17,7 @@ from config import (
     SINGLE_TRADE_MIN_USD_FLOOR,
     CLUSTER_MIN_TOTAL_USD,
     SINGLE_TRADE_MIN_USD,
+    METADATA_CACHE_TTL_MINUTES,
 )
 
 EMPTY_METADATA = {"volume24hr": None, "end_date": None, "proximity_hours": None, "liquidity_num": None}
@@ -112,3 +114,66 @@ def compute_adaptive_thresholds(metadata: dict) -> dict:
 def build_market_thresholds(metadata_by_market: dict[str, dict]) -> dict[str, dict]:
     """Applique compute_adaptive_thresholds à un lot entier de marchés."""
     return {cid: compute_adaptive_thresholds(meta) for cid, meta in metadata_by_market.items()}
+
+
+def _metadata_to_cache_entry(metadata: dict, fetched_at: float) -> dict:
+    end_date = metadata.get("end_date")
+    return {
+        "volume24hr": metadata.get("volume24hr"),
+        "liquidity_num": metadata.get("liquidity_num"),
+        "end_date_iso": end_date.isoformat() if end_date else None,
+        "fetched_at": fetched_at,
+    }
+
+
+def _cache_entry_to_metadata(entry: dict) -> dict:
+    end_date = _parse_iso(entry.get("end_date_iso")) if entry.get("end_date_iso") else None
+    proximity_hours = None
+    if end_date:
+        proximity_hours = max((end_date - datetime.now(timezone.utc)).total_seconds() / 3600, 0)
+    return {
+        "volume24hr": entry.get("volume24hr"),
+        "end_date": end_date,
+        "proximity_hours": proximity_hours,
+        "liquidity_num": entry.get("liquidity_num"),
+    }
+
+
+def fetch_market_metadata_batch_cached(condition_ids: list[str], state: dict) -> dict[str, dict]:
+    """
+    Comme fetch_market_metadata_batch, mais réutilise un cache stocké dans
+    state.json (state["metadata_cache"]) tant qu'il a moins de
+    METADATA_CACHE_TTL_MINUTES. Le volume 24h d'un marché ne change pas assez
+    vite pour justifier de le re-télécharger toutes les 5 minutes -> ça
+    économise des appels réseau et accélère chaque scan.
+    """
+    condition_ids = list(dict.fromkeys(c for c in condition_ids if c))
+    if not condition_ids:
+        return {}
+
+    cache = state.setdefault("metadata_cache", {})
+    now = time.time()
+    ttl_seconds = METADATA_CACHE_TTL_MINUTES * 60
+
+    result: dict[str, dict] = {}
+    to_fetch = []
+    for cid in condition_ids:
+        entry = cache.get(cid)
+        if entry and (now - entry.get("fetched_at", 0)) < ttl_seconds:
+            result[cid] = _cache_entry_to_metadata(entry)
+        else:
+            to_fetch.append(cid)
+
+    if to_fetch:
+        fresh = fetch_market_metadata_batch(to_fetch)
+        for cid, metadata in fresh.items():
+            result[cid] = metadata
+            cache[cid] = _metadata_to_cache_entry(metadata, now)
+
+    # purge du cache : on ne garde que les marchés vus récemment (évite un state.json qui grossit indéfiniment)
+    stale_cutoff = now - ttl_seconds * 6
+    for cid in list(cache.keys()):
+        if cache[cid].get("fetched_at", 0) < stale_cutoff:
+            del cache[cid]
+
+    return result

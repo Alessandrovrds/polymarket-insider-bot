@@ -39,6 +39,21 @@ WALLET_REPUTATION_ENABLED = True
 FRESH_WALLET_MAX_MARKETS = 3        # un wallet ayant tradé <= ce nombre de marchés est "frais"
 FRESH_WALLET_RATIO_ALERT = 0.5      # bonus si >= 50% des wallets vérifiés sont frais
 MAX_WALLETS_CHECKED_PER_ALERT = 8   # limite d'appels API par alerte (perf + rate limit)
+MARKET_MAKER_MIN_MARKETS = 300      # un wallet ayant tradé sur >= 300 marchés est très probablement un bot de liquidité
+MARKET_MAKER_RATIO_VETO = 0.6       # si >= 60% des wallets vérifiés sont des market makers, l'alerte est écartée (bruit)
+WALLET_CHECK_MAX_WORKERS = 6        # requêtes /traded envoyées en parallèle (perf)
+
+# --- Corrélation multi-marchés : mêmes wallets sur plusieurs marchés à la fois ---
+CORRELATION_WINDOW_HOURS = 24       # fenêtre de mémoire pour repérer un wallet déjà vu ailleurs
+CORRELATION_MIN_WALLETS = 2         # nombre de wallets communs pour déclencher le bonus
+
+# --- Vérification d'actualité publique (réduit les faux positifs) ---
+NEWS_CHECK_ENABLED = True
+NEWS_RECENCY_HOURS = 6              # une actu publiée dans les 6h avant l'alerte peut l'expliquer
+NEWS_RSS_URL_TMPL = "https://news.google.com/rss/search?q={query}&hl=fr&gl=FR&ceid=FR:fr"
+
+# --- Cache des métadonnées de marché (évite de refaire les mêmes appels Gamma toutes les 5 min) ---
+METADATA_CACHE_TTL_MINUTES = 12
 
 # --- Score de sévérité : seules les alertes >= ce score sont envoyées sur Telegram ---
 # 0-4 = faible (ignoré) / 5-7 = moyenne / 8-10 = élevée
@@ -59,3 +74,11 @@ STATE_MAX_AGE_HOURS = 24        # on oublie les alertes plus vieilles que ça
 # --- Telegram ---
 # Ces valeurs sont lues depuis les variables d'environnement (voir README.md)
 # TELEGRAM_BOT_TOKEN et TELEGRAM_CHAT_ID — ne rien mettre en dur ici.
+
+# --- Mode temps réel (optionnel, réservé à realtime_scan.py — voir README) ---
+# Ne tourne PAS sur GitHub Actions (pas de connexion permanente possible) :
+# à héberger séparément sur un petit serveur toujours actif (VPS, Railway, Fly.io).
+REALTIME_WS_URL = "wss://ws-live-data.polymarket.com"
+REALTIME_PING_INTERVAL_SECONDS = 5
+REALTIME_SCORE_INTERVAL_SECONDS = 15   # fréquence d'analyse du buffer de trades en mémoire
+REALTIME_BUFFER_MAX_AGE_SECONDS = 900  # on ne garde que les 15 dernières minutes de trades en mémoire

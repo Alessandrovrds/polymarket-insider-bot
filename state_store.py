@@ -6,7 +6,7 @@ Actions après chaque scan (voir .github/workflows/scan.yml).
 import json
 import os
 import time
-from config import STATE_FILE, STATE_MAX_AGE_HOURS
+from config import STATE_FILE, STATE_MAX_AGE_HOURS, CORRELATION_WINDOW_HOURS
 
 
 def load_state() -> dict:
@@ -20,6 +20,7 @@ def load_state() -> dict:
     state.setdefault("alerted", {})
     state.setdefault("overrides", {})
     state.setdefault("telegram_offset", 0)
+    state.setdefault("wallet_activity", {})
     return state
 
 
@@ -57,3 +58,42 @@ def is_paused(state: dict) -> bool:
 def get_min_severity(state: dict, default: int) -> int:
     override = state.get("overrides", {}).get("min_severity")
     return override if override is not None else default
+
+
+def find_cross_market_wallets(state: dict, wallets: list[str], condition_id: str) -> list[str]:
+    """
+    Parmi `wallets`, retourne ceux qui sont déjà apparus dans une alerte sur
+    un AUTRE marché (condition_id différent) au cours des CORRELATION_WINDOW_HOURS
+    dernières heures. Un wallet coordonné sur plusieurs marchés en même temps
+    est un signal beaucoup plus fort qu'un cluster isolé.
+    """
+    now = time.time()
+    cutoff = now - CORRELATION_WINDOW_HOURS * 3600
+    registry = state.get("wallet_activity", {})
+
+    cross_market = []
+    for wallet in wallets:
+        entries = registry.get(wallet, [])
+        other_markets = {e["conditionId"] for e in entries if e["timestamp"] >= cutoff and e["conditionId"] != condition_id}
+        if other_markets:
+            cross_market.append(wallet)
+
+    return cross_market
+
+
+def record_wallet_activity(state: dict, wallets: list[str], condition_id: str) -> None:
+    """Enregistre que ces wallets viennent d'apparaître dans une alerte sur ce marché."""
+    now = time.time()
+    cutoff = now - CORRELATION_WINDOW_HOURS * 3600
+    registry = state.setdefault("wallet_activity", {})
+
+    for wallet in wallets:
+        entries = [e for e in registry.get(wallet, []) if e["timestamp"] >= cutoff]
+        entries.append({"conditionId": condition_id, "timestamp": now})
+        registry[wallet] = entries
+
+    # purge des wallets qui n'ont plus aucune entrée récente
+    for wallet in list(registry.keys()):
+        registry[wallet] = [e for e in registry[wallet] if e["timestamp"] >= cutoff]
+        if not registry[wallet]:
+            del registry[wallet]

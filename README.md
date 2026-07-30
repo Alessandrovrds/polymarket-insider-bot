@@ -29,6 +29,31 @@ Trois affinages supplémentaires :
   téléphone. Si plusieurs alertes arrivent dans le même scan, elles sont
   groupées en un seul message digest pour éviter le spam.
 
+Quatre affinages supplémentaires (précision + performance) :
+
+- **🚫 Filtre market makers** : les wallets qui tradent en permanence sur
+  des dizaines/centaines de marchés (bots de liquidité) sont détectés via
+  le même appel `/traded`. Si la majorité des wallets d'une alerte sont des
+  market makers, l'alerte est neutralisée — ce n'est pas un insider, juste
+  un robot qui fait son travail habituel.
+- **🔗 Corrélation multi-marchés** : le bot mémorise (dans `state.json`)
+  quels wallets sont apparus dans quelles alertes récemment. Si les mêmes
+  wallets réapparaissent sur un AUTRE marché peu après, c'est un signal
+  de coordination bien plus fort qu'un cluster isolé — bonus de score.
+- **📰 Vérification d'actualité** : avant d'alerter, le bot cherche
+  (flux RSS Google News, pas de clé API requise) si une actualité récente
+  pourrait expliquer le mouvement. Si oui, ce n'est probablement pas un
+  délit d'initié mais une réaction normale à une info publique — le score
+  est réduit en conséquence.
+- **⚡ Cache + parallélisation** : les métadonnées de marché (volume,
+  résolution) sont mises en cache 12 minutes au lieu d'être re-téléchargées
+  à chaque scan, et les vérifications de wallets se font en parallèle
+  plutôt qu'une par une — scans plus rapides, moins d'appels réseau.
+
+Et pour aller plus loin qu'un scan toutes les 5 minutes : un **mode temps
+réel optionnel** (`realtime_scan.py`) branché directement sur le flux
+WebSocket de Polymarket — voir la section dédiée plus bas.
+
 Le bot n'exécute **aucun ordre** — il t'alerte seulement, tu trades toi-même.
 
 ## Comment ça marche
@@ -110,6 +135,16 @@ PRICE_MOVE_ALERT_PCT = 5.0           # bonus si le cluster a fait bouger le prix
 WALLET_REPUTATION_ENABLED = True
 FRESH_WALLET_MAX_MARKETS = 3        # un wallet ayant tradé <= 3 marchés est "frais"
 FRESH_WALLET_RATIO_ALERT = 0.5      # bonus si >= 50% des wallets vérifiés sont frais
+MARKET_MAKER_MIN_MARKETS = 300      # un wallet ayant tradé sur >= 300 marchés = bot de liquidité
+MARKET_MAKER_RATIO_VETO = 0.6       # si >= 60% des wallets sont des market makers, alerte écartée
+
+CORRELATION_WINDOW_HOURS = 24       # mémoire pour repérer un wallet déjà vu sur un autre marché
+CORRELATION_MIN_WALLETS = 2         # nb de wallets communs pour déclencher le bonus
+
+NEWS_CHECK_ENABLED = True
+NEWS_RECENCY_HOURS = 6              # une actu publiée dans les 6h avant l'alerte peut l'expliquer
+
+METADATA_CACHE_TTL_MINUTES = 12     # durée de vie du cache des métadonnées de marché
 
 MIN_SEVERITY_SCORE = 5   # seules les alertes >= ce score sont envoyées (5-7 = moyenne, 8-10 = élevée)
 DIGEST_THRESHOLD_COUNT = 4   # au-delà de 4 alertes dans un scan, on groupe en 1 message
@@ -127,6 +162,9 @@ n'en reçois pas assez, baisse-le.
 - +2 si le trade/cluster pèse plus de `RELATIVE_VOLUME_ALERT_RATIO` du volume 24h du marché
 - +2 si le marché résout dans moins de `PROXIMITY_HOURS_ALERT` heures
 - +2 si `FRESH_WALLET_RATIO_ALERT` ou plus des wallets vérifiés sont "frais"
+- +3 si des wallets de cette alerte sont déjà apparus sur un AUTRE marché récemment (corrélation)
+- -3 si une actualité publique récente pourrait expliquer le mouvement
+- **Score forcé à 0** si la majorité des wallets vérifiés sont des market makers connus
 
 ## Piloter le bot depuis Telegram
 
@@ -153,23 +191,81 @@ export TELEGRAM_CHAT_ID=xxx
 python scan.py
 ```
 
+## Mode temps réel (optionnel)
+
+Le mode par défaut (`scan.py` via GitHub Actions) scanne toutes les 5
+minutes. Pour une détection à la seconde près, `realtime_scan.py` se
+branche directement sur le flux WebSocket officiel de Polymarket
+(`wss://ws-live-data.polymarket.com`, canal `activity/trades` — tous les
+trades de la plateforme, en direct, sans limite de fréquence).
+
+⚠️ **Ce script ne peut PAS tourner sur GitHub Actions** : il maintient une
+connexion ouverte en permanence, ce qu'un job GitHub Actions ne permet pas
+(durée de vie limitée). Il faut l'héberger sur un service qui reste allumé
+en continu. Deux options simples :
+
+### Option A — VPS avec systemd (le plus fiable, ~5$/mois)
+
+```bash
+# Sur le VPS :
+git clone https://github.com/<TON_USER>/<TON_REPO>.git
+cd <TON_REPO>
+pip install -r requirements.txt --break-system-packages
+
+# Édite deploy/polymarket-realtime.service : chemins + secrets Telegram
+sudo cp deploy/polymarket-realtime.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now polymarket-realtime
+
+# Vérifier que ça tourne :
+sudo systemctl status polymarket-realtime
+sudo journalctl -u polymarket-realtime -f   # logs en direct
+```
+
+`Restart=always` dans le fichier service redémarre automatiquement le bot
+s'il plante ou si le VPS reboote.
+
+### Option B — Railway / Render (sans gérer de serveur)
+
+Le `Procfile` fourni (`worker: python3 realtime_scan.py`) est reconnu
+automatiquement par ces plateformes :
+
+1. Connecte ton repo GitHub sur Railway.app ou Render.com
+2. Ajoute les variables d'environnement `TELEGRAM_BOT_TOKEN` et
+   `TELEGRAM_CHAT_ID` dans les réglages du service
+3. Déploie — la plateforme lance `realtime_scan.py` en continu
+
+### Faire tourner les deux modes en même temps ?
+
+Techniquement oui, mais attention : `scan.py` et `realtime_scan.py` ont
+chacun leur propre `state.json` (donc leur propre anti-doublons), ils ne se
+coordonnent pas entre eux. Si les deux sont actifs simultanément, tu peux
+recevoir la même alerte deux fois. Le plus simple est de choisir UN seul
+mode actif à la fois — désactive le workflow GitHub Actions (onglet Actions
+→ ⋯ → Disable workflow) si tu passes au temps réel.
+
 ## Structure du projet
 
 ```
 polymarket-insider-bot/
-├── config.py              # seuils de détection, adaptatifs, réputation, digest
-├── polymarket_client.py   # appel à la Data API Polymarket (trades)
-├── market_metadata.py     # Gamma API : volume/résolution + seuils adaptatifs
-├── wallet_reputation.py   # data-api /traded : détection des wallets "frais"
+├── config.py              # tous les seuils et réglages (voir ci-dessus)
+├── polymarket_client.py   # appel à la Data API Polymarket (trades, mode 5 min)
+├── market_metadata.py     # Gamma API : volume/résolution + seuils adaptatifs + cache
+├── wallet_reputation.py   # data-api /traded : wallets "frais" + market makers (parallélisé)
+├── news_check.py          # flux RSS Google News : vérifie si une actu explique le mouvement
 ├── detector.py            # logique de détection (cluster + whale)
-├── scoring.py             # score de sévérité + recommandation de trade
+├── scoring.py             # score de sévérité, veto market maker, bonus corrélation, recommandation
 ├── command_handler.py     # bot Telegram interactif (/status, /pause, ...)
-├── state_store.py         # anti-doublons + overrides persistants (state.json)
+├── state_store.py         # anti-doublons + overrides + registre de corrélation (state.json)
 ├── telegram_notifier.py   # formatage + envoi Telegram (individuel ou digest)
-├── scan.py                # point d'entrée : orchestre tout le pipeline
-├── state.json             # état persistant (mis à jour automatiquement)
+├── scan.py                # point d'entrée mode 5 min : orchestre tout le pipeline
+├── realtime_scan.py        # point d'entrée mode temps réel (WebSocket, hébergement séparé)
+├── deploy/
+│   └── polymarket-realtime.service   # exemple de service systemd pour le mode temps réel
+├── Procfile                # pour déploiement Railway/Render du mode temps réel
+├── state.json              # état persistant (mis à jour automatiquement)
 ├── requirements.txt
-├── tests/                 # tests unitaires (logique pure, sans réseau)
+├── tests/                  # tests unitaires (logique pure, sans réseau)
 └── .github/workflows/scan.yml
 ```
 
