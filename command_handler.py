@@ -13,6 +13,7 @@ Commandes supportées :
   /aide             -> liste des commandes
 """
 import os
+import sys
 import time
 import requests
 from config import (
@@ -48,17 +49,23 @@ def _get_updates(offset: int) -> list[dict]:
 def _reply(text: str) -> None:
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-    if not token or not chat_id:
+    if not token:
+        print("[ERREUR] TELEGRAM_BOT_TOKEN est vide ou absent des secrets GitHub.", file=sys.stderr)
+        return
+    if not chat_id:
+        print("[ERREUR] TELEGRAM_CHAT_ID est vide ou absent des secrets GitHub.", file=sys.stderr)
         return
     url = TELEGRAM_SENDMESSAGE_URL_TMPL.format(token=token)
     try:
-        requests.post(url, json={
+        resp = requests.post(url, json={
             "chat_id": chat_id,
             "text": text,
             "parse_mode": "Markdown",
         }, timeout=15)
-    except Exception:
-        pass  # une notif ratée ne doit pas faire planter le scan
+        if resp.status_code != 200:
+            print(f"[ERREUR] Telegram a refusé le message ({resp.status_code}) : {resp.text}", file=sys.stderr)
+    except Exception as e:
+        print(f"[ERREUR] Échec réseau lors de l'envoi Telegram : {e}", file=sys.stderr)
 
 
 def _handle_command(text: str, state: dict) -> str:
