@@ -1,0 +1,46 @@
+name: Scan Polymarket
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: polymarket-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scan
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scan.py
+
+      - name: Commit updated state
+        run: |
+          git config user.name "polymarket-bot"
+          git config user.email "actions@github.com"
+          if ! git diff --quiet -- state.json; then
+            git add state.json
+            git commit -m "chore: update alert state [skip ci]"
+            git push
+          else
+            echo "Aucun changement d'état à commiter."
+          fi
