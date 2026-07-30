@@ -33,24 +33,24 @@ def format_alert(alert: dict) -> str:
         wallets_str = "\n".join(f"  • {_short(w)}" for w in wallets[:10])
         extra = f"\n  ... +{len(wallets) - 10} autres" if len(wallets) > 10 else ""
         return (
-            f"🚨 *Cluster suspect détecté* — sévérité {severity}\n\n"
+            f"🚨 CLUSTER SUSPECT DÉTECTÉ — sévérité {severity}\n\n"
             f"📊 {title}\n"
-            f"➡️ {side} sur *{outcome}*\n"
+            f"➡️ {side} sur « {outcome} »\n"
             f"👥 {len(wallets)} wallets en {alert.get('span_seconds', 0):.0f}s\n"
             f"💰 Total : ${total:,.0f}\n\n"
-            f"💡 *Suggestion de trade*\n{recommendation}\n\n"
+            f"💡 SUGGESTION DE TRADE\n{recommendation}\n\n"
             f"Wallets :\n{wallets_str}{extra}\n\n"
             f"🔗 {url}"
         )
     else:  # WHALE
         wallet = alert["wallets"][0]
         return (
-            f"🐋 *Grosse transaction isolée* — sévérité {severity}\n\n"
+            f"🐋 GROSSE TRANSACTION ISOLÉE — sévérité {severity}\n\n"
             f"📊 {title}\n"
-            f"➡️ {side} sur *{outcome}*\n"
+            f"➡️ {side} sur « {outcome} »\n"
             f"💰 Montant : ${total:,.0f}\n"
             f"👤 Wallet : {_short(wallet)}\n\n"
-            f"💡 *Suggestion de trade*\n{recommendation}\n\n"
+            f"💡 SUGGESTION DE TRADE\n{recommendation}\n\n"
             f"🔗 {url}"
         )
 
@@ -60,7 +60,7 @@ def format_digest(alerts: list[dict]) -> str:
     ranked = sorted(alerts, key=lambda a: a.get("severity_score", 0), reverse=True)
     shown, rest = ranked[:DIGEST_TOP_N], ranked[DIGEST_TOP_N:]
 
-    lines = [f"📬 *Digest : {len(alerts)} alertes détectées ce scan*\n"]
+    lines = [f"📬 DIGEST : {len(alerts)} alertes détectées ce scan\n"]
     for a in shown:
         icon = "🚨" if a["type"] == "CLUSTER" else "🐋"
         outcome = a.get("outcome") or "?"
@@ -68,7 +68,7 @@ def format_digest(alerts: list[dict]) -> str:
         title = a.get("title") or "(marché inconnu)"
         lines.append(
             f"{icon} {a.get('severity_label', '')} — {title}\n"
-            f"   {side} '{outcome}' · ${a.get('total_usd', 0):,.0f} · {_market_url(a)}"
+            f"   {side} « {outcome} » · ${a.get('total_usd', 0):,.0f} · {_market_url(a)}"
         )
 
     if rest:
@@ -87,10 +87,12 @@ def send_telegram_message(text: str) -> None:
         )
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
+    # Pas de parse_mode : les titres de marché viennent de Polymarket et
+    # peuvent contenir des caractères (_ * [ ]...) qui cassent le parsing
+    # Markdown de Telegram (400 Bad Request). Texte brut = toujours fiable.
     resp = requests.post(url, json={
         "chat_id": chat_id,
         "text": text,
-        "parse_mode": "Markdown",
         "disable_web_page_preview": True,
     }, timeout=15)
     resp.raise_for_status()
