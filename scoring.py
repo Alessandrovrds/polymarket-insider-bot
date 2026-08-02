@@ -4,12 +4,18 @@ corrélation multi-marchés + actualité publique) en :
   1. Un score de sévérité 0-10 (pour filtrer le bruit)
   2. Une recommandation de trade en français, prête à afficher sur Telegram
 
-Deux mécanismes réduisent le score au lieu de l'augmenter :
+Trois mécanismes réduisent le score au lieu de l'augmenter :
   - Market makers : si la majorité des wallets vérifiés sont des bots de
     liquidité très actifs, l'alerte est neutralisée (score forcé à 0).
   - Actualité publique récente : si une news récente explique le mouvement,
     ce n'est probablement pas un délit d'initié -> score réduit.
+  - Signal contradictoire : si une alerte précédente sur ce MÊME marché
+    pariait dans le sens opposé récemment, la confiance dans l'un ou l'autre
+    est réduite -> score réduit + avertissement explicite affiché en premier
+    dans le message (pour ne jamais laisser deux alertes se contredire en
+    silence).
 """
+import time
 from config import (
     CLUSTER_MIN_WALLETS,
     CLUSTER_MIN_TOTAL_USD,
@@ -20,6 +26,7 @@ from config import (
     FRESH_WALLET_RATIO_ALERT,
     MARKET_MAKER_RATIO_VETO,
     CORRELATION_MIN_WALLETS,
+    CONTRADICTION_SCORE_PENALTY,
 )
 
 
@@ -29,6 +36,7 @@ def enrich_and_score(
     reputation: dict | None = None,
     cross_market_wallets: list[str] | None = None,
     news: dict | None = None,
+    conflicting_signal: dict | None = None,
 ) -> dict:
     """
     Ajoute severity_score, severity_label, relative_volume, recommendation à
@@ -42,6 +50,8 @@ def enrich_and_score(
         alert["cross_market_wallets"] = cross_market_wallets
     if news:
         alert["news"] = news
+    if conflicting_signal:
+        alert["conflicting_signal"] = conflicting_signal
 
     volume24hr = metadata.get("volume24hr") or 0
     relative_volume = (alert["total_usd"] / volume24hr) if volume24hr > 0 else None
@@ -93,10 +103,15 @@ def enrich_and_score(
     if news and news.get("found"):
         score = max(0, score - 3)
 
+    # --- Ajustement signal contradictoire : réduit (jamais n'augmente) ---
+    if conflicting_signal:
+        score = max(0, score - CONTRADICTION_SCORE_PENALTY)
+
     alert["severity_score"] = score
-    alert["severity_label"] = (
-        "🔴 ÉLEVÉE" if score >= 8 else "🟠 MOYENNE" if score >= 5 else "🟡 FAIBLE"
-    )
+    label = "🔴 ÉLEVÉE" if score >= 8 else "🟠 MOYENNE" if score >= 5 else "🟡 FAIBLE"
+    if conflicting_signal:
+        label += " ⚡ CONTRADICTOIRE"
+    alert["severity_label"] = label
     alert["recommendation"] = _build_recommendation(alert)
     return alert
 
@@ -109,6 +124,17 @@ def _build_recommendation(alert: dict) -> str:
 
     action = "ACHETER" if side == "BUY" else "VENDRE / ÉVITER"
     direction = f"{action} '{outcome}'"
+
+    conflict_warning = None
+    conflict = alert.get("conflicting_signal")
+    if conflict:
+        minutes_ago = max(0, (time.time() - conflict["timestamp"]) / 60)
+        prev_action = "ACHETER" if conflict["side"] == "BUY" else "VENDRE"
+        conflict_warning = (
+            f"⚡ ATTENTION : contredit une alerte envoyée il y a {minutes_ago:.0f} min sur ce même "
+            f"marché ({prev_action} '{conflict['outcome']}', sévérité {conflict['severity_score']}/10). "
+            f"Les deux signaux ne peuvent pas avoir raison en même temps — prudence renforcée."
+        )
 
     reasons = []
     if alert["type"] == "CLUSTER":
@@ -147,4 +173,7 @@ def _build_recommendation(alert: dict) -> str:
         note = f"⚠️ une actualité récente pourrait expliquer ce mouvement" + (f" : « {headline} »" if headline else "")
         reasons.append(note)
 
-    return f"{direction} à {price_str}\nPourquoi : {', '.join(reasons)}."
+    result = f"{direction} à {price_str}\nPourquoi : {', '.join(reasons)}."
+    if conflict_warning:
+        result = f"{conflict_warning}\n\n{result}"
+    return result

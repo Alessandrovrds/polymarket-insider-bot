@@ -47,6 +47,10 @@ WALLET_CHECK_MAX_WORKERS = 6        # requêtes /traded envoyées en parallèle 
 CORRELATION_WINDOW_HOURS = 24       # fenêtre de mémoire pour repérer un wallet déjà vu ailleurs
 CORRELATION_MIN_WALLETS = 2         # nombre de wallets communs pour déclencher le bonus
 
+# --- Signaux contradictoires : deux alertes sur le même marché qui se contredisent ---
+CONTRADICTION_WINDOW_HOURS = 6      # fenêtre pendant laquelle une alerte peut "contredire" la précédente
+CONTRADICTION_SCORE_PENALTY = 2     # points retirés du score quand une contradiction est détectée
+
 # --- Vérification d'actualité publique (réduit les faux positifs) ---
 NEWS_CHECK_ENABLED = True
 NEWS_RECENCY_HOURS = 6              # une actu publiée dans les 6h avant l'alerte peut l'expliquer
@@ -82,3 +86,14 @@ REALTIME_WS_URL = "wss://ws-live-data.polymarket.com"
 REALTIME_PING_INTERVAL_SECONDS = 5
 REALTIME_SCORE_INTERVAL_SECONDS = 15   # fréquence d'analyse du buffer de trades en mémoire
 REALTIME_BUFFER_MAX_AGE_SECONDS = 900  # on ne garde que les 15 dernières minutes de trades en mémoire
+
+# --- Feedback loop : suivi des résultats réels après chaque alerte ---
+FEEDBACK_ENABLED = True
+SHORT_TERM_CHECK_HOURS = 3          # on revérifie le prix X heures après l'alerte
+LONG_TERM_MAX_CHECK_AGE_DAYS = 60   # au-delà, on abandonne le suivi (résolution jamais arrivée)
+MAX_TRACKED_ALERTS_CHECKED_PER_RUN = 5   # limite d'appels API par scan pour la vérification
+ALERT_HISTORY_MAX_ENTRIES = 500     # taille max de l'historique archivé dans state.json
+
+# --- Rapport hebdomadaire automatique ---
+WEEKLY_REPORT_ENABLED = True
+WEEKLY_REPORT_WEEKDAY = 4   # 0=lundi ... 4=vendredi (heure serveur GitHub Actions = UTC)

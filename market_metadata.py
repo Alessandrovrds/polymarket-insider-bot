@@ -6,6 +6,7 @@ Utilisé pour : (1) enrichir les alertes déjà détectées, et (2) calculer des
 seuils de détection ADAPTATIFS à la taille de chaque marché (voir config.py).
 """
 from datetime import datetime, timezone
+import json
 import time
 import requests
 from config import (
@@ -114,6 +115,64 @@ def compute_adaptive_thresholds(metadata: dict) -> dict:
 def build_market_thresholds(metadata_by_market: dict[str, dict]) -> dict[str, dict]:
     """Applique compute_adaptive_thresholds à un lot entier de marchés."""
     return {cid: compute_adaptive_thresholds(meta) for cid, meta in metadata_by_market.items()}
+
+
+def _fetch_raw_market(condition_id: str) -> dict | None:
+    try:
+        resp = requests.get(
+            GAMMA_MARKETS_URL,
+            params={"condition_ids": condition_id, "limit": 1},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        return data[0] if data else None
+    except Exception:
+        return None
+
+
+def fetch_current_outcome_price(condition_id: str, outcome_index: int | None) -> float | None:
+    """
+    Prix actuel d'une issue précise d'un marché (pour le suivi court terme du
+    feedback loop). outcome_index None -> on ne peut pas identifier l'issue,
+    retourne None plutôt que de deviner.
+    """
+    if outcome_index is None:
+        return None
+
+    market = _fetch_raw_market(condition_id)
+    if not market:
+        return None
+
+    try:
+        prices = json.loads(market.get("outcomePrices", "[]"))
+        return float(prices[outcome_index])
+    except (ValueError, IndexError, TypeError, json.JSONDecodeError):
+        return None
+
+
+def fetch_market_resolution(condition_id: str) -> dict:
+    """
+    Statut de résolution d'un marché (pour le suivi long terme du feedback loop).
+    Retourne {"closed": bool, "winning_outcome_index": int|None}.
+    """
+    market = _fetch_raw_market(condition_id)
+    if not market:
+        return {"closed": False, "winning_outcome_index": None}
+
+    closed = bool(market.get("closed"))
+    winning_index = None
+    if closed:
+        try:
+            prices = json.loads(market.get("outcomePrices", "[]"))
+            for i, p in enumerate(prices):
+                if float(p) >= 0.99:  # l'issue gagnante résout à un prix ~1.0
+                    winning_index = i
+                    break
+        except (ValueError, TypeError, json.JSONDecodeError):
+            pass
+
+    return {"closed": closed, "winning_outcome_index": winning_index}
 
 
 def _metadata_to_cache_entry(metadata: dict, fetched_at: float) -> dict:

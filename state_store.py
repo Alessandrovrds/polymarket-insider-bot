@@ -6,7 +6,7 @@ Actions après chaque scan (voir .github/workflows/scan.yml).
 import json
 import os
 import time
-from config import STATE_FILE, STATE_MAX_AGE_HOURS, CORRELATION_WINDOW_HOURS
+from config import STATE_FILE, STATE_MAX_AGE_HOURS, CORRELATION_WINDOW_HOURS, CONTRADICTION_WINDOW_HOURS
 
 
 def load_state() -> dict:
@@ -21,6 +21,7 @@ def load_state() -> dict:
     state.setdefault("overrides", {})
     state.setdefault("telegram_offset", 0)
     state.setdefault("wallet_activity", {})
+    state.setdefault("market_signal_history", {})
     return state
 
 
@@ -97,3 +98,43 @@ def record_wallet_activity(state: dict, wallets: list[str], condition_id: str) -
         registry[wallet] = [e for e in registry[wallet] if e["timestamp"] >= cutoff]
         if not registry[wallet]:
             del registry[wallet]
+
+
+def find_conflicting_market_signal(state: dict, condition_id: str, outcome: str, side: str) -> dict | None:
+    """
+    Cherche, parmi les alertes déjà ENVOYÉES sur ce même marché dans les
+    CONTRADICTION_WINDOW_HOURS dernières heures, une alerte qui pariait dans
+    la direction OPPOSÉE :
+      - même issue mais sens opposé (ex: BUY 'Yes' puis SELL 'Yes'), ou
+      - issue différente avec le même sens (ex: BUY 'Yes' puis BUY 'No')
+    Retourne la plus récente trouvée, ou None.
+    """
+    now = time.time()
+    cutoff = now - CONTRADICTION_WINDOW_HOURS * 3600
+    entries = state.get("market_signal_history", {}).get(condition_id, [])
+    recent = [e for e in entries if e["timestamp"] >= cutoff]
+
+    for entry in sorted(recent, key=lambda e: e["timestamp"], reverse=True):
+        same_outcome_opposite_side = entry["outcome"] == outcome and entry["side"] != side
+        different_outcome_same_side = entry["outcome"] != outcome and entry["side"] == side
+        if same_outcome_opposite_side or different_outcome_same_side:
+            return entry
+
+    return None
+
+
+def record_market_signal(state: dict, condition_id: str, outcome: str, side: str, severity_score: int) -> None:
+    """Mémorise la direction d'une alerte ENVOYÉE, pour pouvoir détecter une contradiction future."""
+    now = time.time()
+    cutoff = now - CONTRADICTION_WINDOW_HOURS * 3600
+    registry = state.setdefault("market_signal_history", {})
+
+    entries = [e for e in registry.get(condition_id, []) if e["timestamp"] >= cutoff]
+    entries.append({"outcome": outcome, "side": side, "timestamp": now, "severity_score": severity_score})
+    registry[condition_id] = entries
+
+    # purge des marchés qui n'ont plus aucune entrée récente
+    for cid in list(registry.keys()):
+        registry[cid] = [e for e in registry[cid] if e["timestamp"] >= cutoff]
+        if not registry[cid]:
+            del registry[cid]

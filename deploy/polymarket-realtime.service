@@ -1,0 +1,29 @@
+# Service systemd pour faire tourner realtime_scan.py en continu sur un VPS.
+#
+# Installation (sur le VPS, en tant que root ou avec sudo) :
+#   1. Clone ton repo sur le serveur, ex: /home/ubuntu/polymarket-insider-bot
+#   2. cd /home/ubuntu/polymarket-insider-bot && pip install -r requirements.txt --break-system-packages
+#   3. Copie ce fichier : sudo cp deploy/polymarket-realtime.service /etc/systemd/system/
+#   4. Édite les chemins et les secrets ci-dessous (WorkingDirectory, User, TELEGRAM_*)
+#   5. sudo systemctl daemon-reload
+#   6. sudo systemctl enable --now polymarket-realtime
+#   7. Vérifier : sudo systemctl status polymarket-realtime
+#   8. Voir les logs en direct : sudo journalctl -u polymarket-realtime -f
+
+[Unit]
+Description=Polymarket Insider Bot - mode temps reel (WebSocket)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/polymarket-insider-bot
+Environment=TELEGRAM_BOT_TOKEN=colle_ton_token_ici
+Environment=TELEGRAM_CHAT_ID=colle_ton_chat_id_ici
+ExecStart=/usr/bin/python3 /home/ubuntu/polymarket-insider-bot/realtime_scan.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

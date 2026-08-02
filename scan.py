@@ -1,7 +1,9 @@
 """
 Point d'entrée : un scan =
-  0. traiter les commandes Telegram en attente (pause/reprise/seuils/statut)
-  1. si en pause -> s'arrêter là (mais on a quand même traité les commandes)
+  0. traiter les commandes Telegram en attente (pause/reprise/seuils/statut/stats)
+  0bis. envoyer le rapport hebdomadaire si c'est vendredi
+  0ter. feedback loop : vérifier les résultats court/long terme des alertes passées
+  1. si en pause -> s'arrêter là (mais tout ce qui précède a quand même eu lieu)
   2. récupérer les trades récents
   3. calculer les seuils ADAPTATIFS par marché (métadonnées mises en cache)
   4. détecter les anomalies (cluster + whale) avec ces seuils
@@ -10,7 +12,8 @@ Point d'entrée : un scan =
      multi-marchés, vérification d'actualité publique, puis scoring
   7. filtrer par score de sévérité minimum (défaut ou override utilisateur)
   8. notifier Telegram (message unique ou digest si trop d'alertes)
-  9. mémoriser les wallets de cette alerte pour la corrélation future
+  9. mémoriser les wallets + l'instantané de l'alerte (pour la corrélation et
+     le feedback loop futurs)
 
 Lancé toutes les 5 minutes par .github/workflows/scan.yml
 """
@@ -20,6 +23,7 @@ from detector import detect_anomalies
 from state_store import (
     load_state, save_state, filter_new_alerts, is_paused, get_min_severity,
     find_cross_market_wallets, record_wallet_activity,
+    find_conflicting_market_signal, record_market_signal,
 )
 from telegram_notifier import notify_alerts
 from market_metadata import fetch_market_metadata_batch_cached, build_market_thresholds
@@ -27,7 +31,9 @@ from wallet_reputation import assess_wallet_freshness
 from news_check import check_recent_news
 from scoring import enrich_and_score
 from command_handler import process_pending_commands
-from config import MIN_SEVERITY_SCORE, WALLET_REPUTATION_ENABLED, NEWS_CHECK_ENABLED
+from outcome_tracker import record_alert_outcome, review_short_term, review_long_term
+from weekly_report import maybe_send_weekly_report
+from config import MIN_SEVERITY_SCORE, WALLET_REPUTATION_ENABLED, NEWS_CHECK_ENABLED, FEEDBACK_ENABLED
 
 
 def main() -> int:
@@ -36,6 +42,15 @@ def main() -> int:
     n_commands = process_pending_commands(state)
     if n_commands:
         print(f"[INFO] {n_commands} commande(s) Telegram traitée(s).")
+
+    if maybe_send_weekly_report(state):
+        print("[INFO] Rapport hebdomadaire envoyé.")
+
+    if FEEDBACK_ENABLED:
+        n_short = review_short_term(state)
+        n_long = review_long_term(state)
+        if n_short or n_long:
+            print(f"[INFO] Feedback loop : {n_short} vérif. court terme, {n_long} vérif. long terme.")
 
     if is_paused(state):
         print("[INFO] Bot en pause (voir /resume sur Telegram). Scan ignoré.")
@@ -78,7 +93,11 @@ def main() -> int:
         if NEWS_CHECK_ENABLED:
             news = check_recent_news(alert.get("title", ""))
 
-        scored = enrich_and_score(alert, metadata, reputation, cross_market_wallets, news)
+        conflicting_signal = find_conflicting_market_signal(
+            state, alert["conditionId"], alert["outcome"], alert["side"]
+        )
+
+        scored = enrich_and_score(alert, metadata, reputation, cross_market_wallets, news, conflicting_signal)
         print(
             f"[INFO] {scored['type']} sur '{scored.get('title')}' "
             f"-> score {scored['severity_score']}/10 ({scored['severity_label']})"
@@ -90,6 +109,7 @@ def main() -> int:
 
         if scored["severity_score"] >= min_severity:
             new_alerts.append(scored)
+            record_market_signal(state, alert["conditionId"], alert["outcome"], alert["side"], scored["severity_score"])
 
     print(f"[INFO] {len(new_alerts)} alerte(s) au-dessus du seuil de sévérité ({min_severity}).")
 
@@ -100,6 +120,10 @@ def main() -> int:
             print(f"[ERREUR] Échec de l'envoi Telegram : {e}", file=sys.stderr)
             save_state(state)
             return 1
+
+        if FEEDBACK_ENABLED:
+            for alert in new_alerts:
+                record_alert_outcome(state, alert)
 
     save_state(state)
     return 0

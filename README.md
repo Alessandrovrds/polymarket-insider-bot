@@ -54,6 +54,12 @@ Et pour aller plus loin qu'un scan toutes les 5 minutes : un **mode temps
 réel optionnel** (`realtime_scan.py`) branché directement sur le flux
 WebSocket de Polymarket — voir la section dédiée plus bas.
 
+Enfin, un **feedback loop** : le bot mémorise chaque alerte envoyée, puis
+revient vérifier ce qui s'est réellement passé — le prix a-t-il bougé comme
+prévu (court terme), et le marché a-t-il résolu dans le sens suggéré (long
+terme) ? Résultat consultable à tout moment via `/stats`, et un **rapport
+automatique chaque vendredi**. Voir la section dédiée plus bas.
+
 Le bot n'exécute **aucun ordre** — il t'alerte seulement, tu trades toi-même.
 
 ## Comment ça marche
@@ -177,7 +183,71 @@ instantané — voir la limite GitHub Actions plus haut) :
 | `/pause 60` | suspend les alertes pendant 60 minutes |
 | `/resume` | annule la pause |
 | `/severite 7` | change le seuil de sévérité minimum pour cette session |
+| `/stats` | statistiques de fiabilité du bot (voir section Feedback loop) |
 | `/aide` | liste des commandes |
+
+## Feedback loop : le bot vérifie ses propres résultats
+
+Après chaque alerte envoyée, le bot mémorise un instantané (prix, wallets,
+signaux qui ont déclenché l'alerte), puis revient vérifier ce qui s'est
+réellement passé, sur deux horizons :
+
+- **Court terme** (`SHORT_TERM_CHECK_HOURS`, 3h par défaut) : le prix a-t-il
+  bougé dans le sens suggéré par l'alerte ? Mesure la réaction immédiate.
+- **Long terme** (à la résolution du marché, peut prendre des semaines) :
+  l'issue pariée a-t-elle effectivement gagné ? C'est la vraie vérité
+  terrain — si le marché n'est pas encore résolu, le bot réessaiera au
+  prochain scan (jusqu'à `LONG_TERM_MAX_CHECK_AGE_DAYS`, 60 jours par défaut,
+  au-delà de quoi le suivi est abandonné).
+
+Ces vérifications se font automatiquement à chaque scan, en tâche de fond
+(jusqu'à `MAX_TRACKED_ALERTS_CHECKED_PER_RUN` alertes vérifiées par passage,
+pour ne pas surcharger l'API).
+
+**Consulter les résultats :**
+- À tout moment : envoie `/stats` sur Telegram
+- Automatiquement chaque **vendredi** : un rapport des 7 derniers jours est
+  envoyé sans avoir à le demander (réglable via `WEEKLY_REPORT_ENABLED` et
+  `WEEKLY_REPORT_WEEKDAY` dans `config.py`)
+
+Le rapport montre un taux de réussite global (court terme + long terme) et
+un détail par signal ("les alertes avec wallets frais ont eu raison X% du
+temps") — de quoi juger, avec des vrais chiffres, quels signaux valent la
+peine d'être pondérés plus fort dans `scoring.py`.
+
+⚠️ **Il faut du temps avant que ces stats soient utiles.** Les premières
+semaines, `/stats` affichera "pas encore assez de données" — c'est normal,
+il faut accumuler des dizaines d'alertes avec un résultat connu avant que
+les taux de réussite par signal soient statistiquement significatifs.
+
+## Signaux contradictoires : plus jamais deux alertes qui se contredisent en silence
+
+Si le bot t'envoie une alerte "ACHETER Yes" puis, quelques minutes ou
+heures après, une autre alerte sur le **même marché** qui pointe dans le
+sens opposé (ACHETER No, ou VENDRE Yes), il le détecte automatiquement et
+te le dit clairement — au lieu de te laisser deviner que les deux alertes
+se contredisent.
+
+Concrètement, dans les `CONTRADICTION_WINDOW_HOURS` (6h par défaut) qui
+suivent une alerte envoyée sur un marché, si une nouvelle alerte arrive
+dans la direction opposée sur ce même marché :
+
+- Le score de la nouvelle alerte est réduit de `CONTRADICTION_SCORE_PENALTY`
+  points (2 par défaut) — deux signaux qui se contredisent inspirent moins
+  confiance que chacun pris isolément.
+- Le message affiche **en tout premier**, avant même la recommandation
+  normale, un avertissement explicite :
+
+  > ⚡ ATTENTION : contredit une alerte envoyée il y a 18 min sur ce même
+  > marché (ACHETER 'No', sévérité 6/10). Les deux signaux ne peuvent pas
+  > avoir raison en même temps — prudence renforcée.
+
+- Le libellé de sévérité est complété par `⚡ CONTRADICTOIRE` pour que ce
+  soit visible d'un coup d'œil, même sans lire tout le message.
+
+Le bot ne choisit pas pour toi lequel des deux signaux croire — il
+te donne juste l'information manquante pour trancher toi-même, plutôt que
+de recevoir deux alertes qui se contredisent sans lien apparent entre elles.
 
 ## Tester en local
 
@@ -255,7 +325,9 @@ polymarket-insider-bot/
 ├── news_check.py          # flux RSS Google News : vérifie si une actu explique le mouvement
 ├── detector.py            # logique de détection (cluster + whale)
 ├── scoring.py             # score de sévérité, veto market maker, bonus corrélation, recommandation
-├── command_handler.py     # bot Telegram interactif (/status, /pause, ...)
+├── command_handler.py     # bot Telegram interactif (/status, /pause, /stats, ...)
+├── outcome_tracker.py     # feedback loop : enregistrement + vérif court/long terme + stats
+├── weekly_report.py       # rapport hebdomadaire automatique (vendredi)
 ├── state_store.py         # anti-doublons + overrides + registre de corrélation (state.json)
 ├── telegram_notifier.py   # formatage + envoi Telegram (individuel ou digest)
 ├── scan.py                # point d'entrée mode 5 min : orchestre tout le pipeline

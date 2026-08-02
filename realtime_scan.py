@@ -35,11 +35,13 @@ from config import (
     MIN_SEVERITY_SCORE,
     WALLET_REPUTATION_ENABLED,
     NEWS_CHECK_ENABLED,
+    FEEDBACK_ENABLED,
 )
 from detector import detect_anomalies
 from state_store import (
     load_state, save_state, filter_new_alerts, is_paused, get_min_severity,
     find_cross_market_wallets, record_wallet_activity,
+    find_conflicting_market_signal, record_market_signal,
 )
 from market_metadata import fetch_market_metadata_batch_cached, build_market_thresholds
 from wallet_reputation import assess_wallet_freshness
@@ -47,6 +49,8 @@ from news_check import check_recent_news
 from scoring import enrich_and_score
 from command_handler import process_pending_commands
 from telegram_notifier import notify_alerts
+from outcome_tracker import record_alert_outcome, review_short_term, review_long_term
+from weekly_report import maybe_send_weekly_report
 
 SUBSCRIBE_MESSAGE = {
     "action": "subscribe",
@@ -112,6 +116,13 @@ async def periodic_scan(buffer: TradeBuffer) -> None:
             if n_commands:
                 print(f"[TEMPS RÉEL] {n_commands} commande(s) Telegram traitée(s).", flush=True)
 
+            if maybe_send_weekly_report(state):
+                print("[TEMPS RÉEL] Rapport hebdomadaire envoyé.", flush=True)
+
+            if FEEDBACK_ENABLED:
+                review_short_term(state)
+                review_long_term(state)
+
             if is_paused(state):
                 save_state(state)
                 continue
@@ -135,8 +146,11 @@ async def periodic_scan(buffer: TradeBuffer) -> None:
                 reputation = assess_wallet_freshness(alert["wallets"]) if WALLET_REPUTATION_ENABLED else None
                 cross_market_wallets = find_cross_market_wallets(state, alert["wallets"], alert["conditionId"])
                 news = check_recent_news(alert.get("title", "")) if NEWS_CHECK_ENABLED else None
+                conflicting_signal = find_conflicting_market_signal(
+                    state, alert["conditionId"], alert["outcome"], alert["side"]
+                )
 
-                scored = enrich_and_score(alert, metadata, reputation, cross_market_wallets, news)
+                scored = enrich_and_score(alert, metadata, reputation, cross_market_wallets, news, conflicting_signal)
                 print(
                     f"[TEMPS RÉEL] {scored['type']} sur '{scored.get('title')}' "
                     f"-> score {scored['severity_score']}/10 ({scored['severity_label']})",
@@ -147,10 +161,14 @@ async def periodic_scan(buffer: TradeBuffer) -> None:
 
                 if scored["severity_score"] >= min_severity:
                     new_alerts.append(scored)
+                    record_market_signal(state, alert["conditionId"], alert["outcome"], alert["side"], scored["severity_score"])
 
             if new_alerts:
                 notify_alerts(new_alerts)
                 print(f"[TEMPS RÉEL] {len(new_alerts)} alerte(s) envoyée(s).", flush=True)
+                if FEEDBACK_ENABLED:
+                    for alert in new_alerts:
+                        record_alert_outcome(state, alert)
 
             save_state(state)
 

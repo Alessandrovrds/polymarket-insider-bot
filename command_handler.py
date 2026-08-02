@@ -10,6 +10,7 @@ Commandes supportées :
   /pause <minutes>  -> suspend les alertes pendant N minutes
   /resume           -> annule la pause
   /severite <0-10>  -> change le seuil minimum de sévérité pour cette session
+  /stats            -> statistiques de fiabilité du bot (feedback loop)
   /aide             -> liste des commandes
 """
 import os
@@ -21,6 +22,7 @@ from config import (
     TELEGRAM_SENDMESSAGE_URL_TMPL,
     MIN_SEVERITY_SCORE,
 )
+from outcome_tracker import get_stats, format_stats_message
 
 HELP_TEXT = (
     "🤖 COMMANDES DISPONIBLES\n\n"
@@ -28,6 +30,7 @@ HELP_TEXT = (
     "/pause <minutes> — suspend les alertes\n"
     "/resume — annule la pause\n"
     "/severite <0-10> — change le seuil de sévérité minimum\n"
+    "/stats — statistiques de fiabilité du bot\n"
     "/aide — cette liste\n\n"
     "⏱️ Les commandes sont appliquées au prochain scan (jusqu'à ~5 min de délai)."
 )
@@ -113,6 +116,10 @@ def _handle_command(text: str, state: dict) -> str:
 
     if cmd in ("/aide", "/help", "/start"):
         return HELP_TEXT
+
+    if cmd == "/stats":
+        stats = get_stats(state)
+        return format_stats_message(stats, title="STATISTIQUES DU BOT (depuis le début)")
 
     return None  # commande inconnue -> pas de réponse (évite le bruit)
 
