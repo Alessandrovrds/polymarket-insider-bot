@@ -261,7 +261,9 @@
     "cluster:0x1cdd372bea876ba49421c8cd5efb43e15a4481414740d247afb21bfbd5c34dfa:Lucas Poullain:BUY:59537345": 1786120837.227137,
     "cluster:0xd9c01a9a9208d439c83f10a314b4b91eeb43e055415c976da4398044c1222896:Boston Red Sox:BUY:59537354": 1786121138.5547817,
     "cluster:0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d:GIANTX:BUY:59537364": 1786121436.8119142,
-    "cluster:0x2b392288c099346c2e1e9518573bda23a6676019eb95607e2951c00a04d7a791:St. Louis Cardinals:BUY:59537405": 1786122346.6552234
+    "cluster:0x2b392288c099346c2e1e9518573bda23a6676019eb95607e2951c00a04d7a791:St. Louis Cardinals:BUY:59537405": 1786122346.6552234,
+    "cluster:0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d:Shifters:BUY:59537414": 1786122645.8858068,
+    "whale:0xd0d22ec31048432d79f7d034a40eba62cf3b32374bf0c6befd9b961cd72c2d37": 1786122645.8858068
   },
   "overrides": {},
   "telegram_offset": 711223244,
@@ -1354,6 +1356,14 @@
       {
         "conditionId": "0xeaa2afb8617dcda8f5aaf16c8918083ee7221032830deb276503053465199362",
         "timestamp": 1786119041.5705895
+      },
+      {
+        "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
+        "timestamp": 1786122646.3836896
+      },
+      {
+        "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
+        "timestamp": 1786122646.451417
       }
     ],
     "0x2d395d11014415644fe9a8599fe050e7f3a06053": [
@@ -3978,6 +3988,10 @@
       {
         "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
         "timestamp": 1786121437.3976693
+      },
+      {
+        "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
+        "timestamp": 1786122646.3836896
       }
     ],
     "0x174f74d9a879611d994fd9b562590feb72dea4ac": [
@@ -16711,6 +16725,12 @@
         "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
         "timestamp": 1786121437.3976693
       }
+    ],
+    "0x6e2c0e9474af7d720e5aba2a5b0bb6f723b7787c": [
+      {
+        "conditionId": "0xf0e2cc5ce0dc2405ca35a8614313839cf04cdb08f99e367afcb1bc3982e5e58d",
+        "timestamp": 1786122646.3836896
+      }
     ]
   },
   "market_signal_history": {
@@ -21556,7 +21576,12 @@
         "adaptive_threshold": false
       },
       "sent_at": 1786111837.9602218,
-      "short_term": null,
+      "short_term": {
+        "checked_at": 1786122644.8346133,
+        "price_then": null,
+        "price_now": null,
+        "correct": null
+      },
       "long_term": null
     },
     "cluster:0xeca41230adcce81689e6b35540d0706d7097bcda7f0cabc2171b79d136c04347:GIANTX:BUY:59537184": {
@@ -21666,12 +21691,6 @@
       "end_date_iso": null,
       "fetched_at": 1786120085.5720348
     },
-    "0x3773cbfc174f847670c2d98e54ce030d022d7b057f476c2cffb0a52ba09dd0f4": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x598d0c3d015afb9092434b82913046b272c41e11479b3d64ed4447f3699045c1": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -21724,7 +21743,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x518df6d694ad4658fe6c284850c029c6f00c9b3609cf05f7757d1fecba1641f8": {
       "volume24hr": null,
@@ -21808,7 +21827,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786119936.1631196
+      "fetched_at": 1786122645.673256
     },
     "0x5771cb52d9187eea0dee649aee5faa5d79c920a9b50297e9726c10e5669908d1": {
       "volume24hr": null,
@@ -21858,12 +21877,6 @@
       "end_date_iso": null,
       "fetched_at": 1786121138.25933
     },
-    "0x1715e86843c1ffa52ca6cd7b6ece478f72e4be53c1a57ca8007410dcaa78001b": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x19837aa660d59b55570415087706d88e381cccac29ad18dba3477441ed19b6a3": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -21874,7 +21887,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x4ccae08b3c4fd63dde53e81e176e055fa907f5cf8056f8ae70edf67b17a31168": {
       "volume24hr": null,
@@ -21887,12 +21900,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786119641.3103862
-    },
-    "0xf817b30b07483159c4d1b6b3225b668acb9d75a97f93d060ff11f61f61086f74": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0xd5cc84601ffcc058745569dc26d637428826770341db0359331f9ce62f217817": {
       "volume24hr": null,
@@ -21928,7 +21935,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0xaee6c331835e66f70e9b3c2d0a30f7366848f0dac176ee0dc7a43f3aab5ac344": {
       "volume24hr": null,
@@ -21995,12 +22002,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786121138.25933
-    },
-    "0x167f620a021481e985beafe6810d557d7d7417715d0659c2a7e65a86bcb66dc2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x0970d2080134a627796870c94af777a32dc7289ec38545daf11ef050dcb030c8": {
       "volume24hr": null,
@@ -22110,12 +22111,6 @@
       "end_date_iso": null,
       "fetched_at": 1786120836.9495447
     },
-    "0x71fa2b9df79ae3aed7721dfde68b16673f191b93cfcc24909ccd237fbe1a334c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x7da226b00421a92349c07c1438f7fa74cce55d342d636fac7c7128c1d7096c93": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -22144,7 +22139,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x54a659dda09dd22f895a1280c312288a73f6d9afab67c790fd1a5989df9764cd": {
       "volume24hr": null,
@@ -22162,7 +22157,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0xdda8b9ca95611ed61fb8a9ed3fa6e833e41ba9349a5f6e8dc39fb4e24210a8b9": {
       "volume24hr": null,
@@ -22180,19 +22175,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x8194e4bafddfb805dbc12791de6dd2ad90314aacc76f3800f251d41846184ada": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786121138.25933
-    },
-    "0x73bad23f1e22d9cb991ea3e02f030c0620b4d8e0b4aa394a6aed0454b719151c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x742dc4b6d285bee2ac3e9c36c5827c9acf22ffe2d72062e2b0c636c32941b0dc": {
       "volume24hr": null,
@@ -22212,23 +22201,11 @@
       "end_date_iso": null,
       "fetched_at": 1786122346.4253683
     },
-    "0x2b80cb67a3731e6f08b7f167c686fa83bd3a1a312c12e83b1281793d709944be": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x4ab993422e6606ce2d73de77f565b20e5269ebe49ef5a4fc0bded4ffbcc87abd": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786119641.3103862
-    },
-    "0x54a9f1afad283b41ecdd9c9b078b76dc5849d6abaac43826c0b1918eb9933f07": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x5e383c5f7797a7f8bf2de9fda0e734a9f52a3ea2ee6bb245c7a3ac4bd80e00a0": {
       "volume24hr": null,
@@ -22288,19 +22265,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x8ed8f7033b5f1ec9614f64a65925ce5ae6c27bc853ff3dd34dd1c7ff0578758f": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786119040.6100113
-    },
-    "0x19f7cc90f832b7c90aa7bb144f70fd01bdf52d80d81fc992cf882f50f0d8afe8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x5a9395dae6c7643ea06e7a555580a5526e81073aea9c9306363529c5b76a8f8b": {
       "volume24hr": null,
@@ -22312,7 +22283,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121138.25933
+      "fetched_at": 1786122645.673256
     },
     "0xfe28cb84a714b1a964290d7fd2587e71d57e905678c8ab64488449b24be78e52": {
       "volume24hr": null,
@@ -22324,7 +22295,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0x48f36818e03e7edb533ba52e9eda480fa34e72ac263a9157eef21153cba89ea1": {
       "volume24hr": null,
@@ -22342,25 +22313,19 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0x5cf05a9aec70d63c22c599a01712c6abb095064f19ae4491458d30cdd19f2291": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786118731.8977852
+      "fetched_at": 1786122645.673256
     },
     "0x79592daf4ad28b6b77b456e632ce60f14bfe964f8948d2e510b4711d7be75938": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
-    },
-    "0x86a2515d1df361ecd588ca8705c6eb83567cc9fbe907780c5d5d470877c1ce0c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
+      "fetched_at": 1786122645.673256
     },
     "0xca994b2b4a6f3b2e3d01aa2381320bd4cca10fce978bde6892686f0120e353f4": {
       "volume24hr": null,
@@ -22428,12 +22393,6 @@
       "end_date_iso": null,
       "fetched_at": 1786119340.7526815
     },
-    "0xac95148401ba979c4588b0fa36cc09f75a26ceaca79811f15acd32c3a2f6c278": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0xb44fe13de8e6e3f0e1232613dd9a79f0a898672a41d608a9cd57e340ba6e9185": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -22445,12 +22404,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786120258.0135436
-    },
-    "0x458aed00cb572a9d44bb4b6774311b1b312ef643bd2d4e4686768a4affb677ae": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0xa1b3158fedfddaf2a0d8b364f6a57ee68146fb6ad458222aa8e02bcf0abbb099": {
       "volume24hr": null,
@@ -22493,12 +22446,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786118731.8977852
-    },
-    "0x49479ffa88e2897569b1d413e3bc558003e21912edee09d080ca6bac6eb20805": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x579e7ddd3553f6cc945cb06ffe805c6778e5325ecfc72e1a8ed61b291ee928e2": {
       "volume24hr": null,
@@ -22566,12 +22513,6 @@
       "end_date_iso": null,
       "fetched_at": 1786118457.959213
     },
-    "0x3b27b44d43edd5189f98cc6dd405b5b0db6920d9c0469b1e9f50e0d71ecf5860": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0xa08a5ce99e14ce0b22767af6f16c08a2ab012249444c20887193a9a3e98e11fc": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -22606,7 +22547,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0x58a1b0c371f3f4a277517fd9cbd743910d90e93e2c5583116b5aeea73c48b820": {
       "volume24hr": null,
@@ -22644,12 +22585,6 @@
       "end_date_iso": null,
       "fetched_at": 1786121138.25933
     },
-    "0xb8743e2a861dd9dd843c654350adce29ae4d1567063f538847aed18813d2fb90": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0xc3dd06bab8afae415d3cacc3748e73ce4a4d5ab4d8c8c415ce795f82d9183fb4": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -22666,7 +22601,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120836.9495447
+      "fetched_at": 1786122645.673256
     },
     "0xd6f43b4203bcb19b08d6666d3e356fa02d13ee8cb3c8b1061e6ca5c3b8f27902": {
       "volume24hr": null,
@@ -22744,7 +22679,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0xdbaa19c72378f7eb2fc01c0b40404857a1b1e68e3561ce5bbe792a24ce79377e": {
       "volume24hr": null,
@@ -22792,13 +22727,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786118457.959213
+      "fetched_at": 1786122645.673256
     },
     "0x7f646a72d45754037a97917f481b04fd65b3767a421971988be44e257bcbda01": {
       "volume24hr": null,
@@ -22816,7 +22751,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x9e08009ea1d22d5ea9a9223ef479782b139c6d66784000d1013498ef9499166a": {
       "volume24hr": null,
@@ -22866,12 +22801,6 @@
       "end_date_iso": null,
       "fetched_at": 1786118457.959213
     },
-    "0x0ca7cdf632bcc4751ec264a179c86331353939f7e78ea005082a9821c74e1413": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x18e0f9d80759a06d7aa43f3524ea9986fef8e4d17c19ad6f1fcdd72004c0b6b8": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -22919,12 +22848,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786120085.5720348
-    },
-    "0xa2db6f4c406f22f13161b9c583da1b26e360468dc40b664da4fb2bfebb50640e": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0xbc9964ab2e4e4886796e86263769e34451476172200f99e378e74adc6e202663": {
       "volume24hr": null,
@@ -23046,17 +22969,11 @@
       "end_date_iso": null,
       "fetched_at": 1786122346.4253683
     },
-    "0x5f5fed1f987b1e6fe927be62d71952c88d930343f801f23304c040c27fca8b36": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x6317cad3fe8c280fd975c422582f13dc353cba9f904824045a13d6e0a04992b9": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x6fefc0438c7598b23531457c8c60541990d0786bd4bd9dfc3eabc8d95c291092": {
       "volume24hr": null,
@@ -23118,12 +23035,6 @@
       "end_date_iso": null,
       "fetched_at": 1786121138.25933
     },
-    "0x192eb55f2278fed31c8aa60ea7da003b647f6f198d7041312f08e6eccb75ad75": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x1c3d94c474e395e5d783381395128314646aee792fccdcdd690f9d1dd6526041": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -23164,19 +23075,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0xa38902cf8f4b2731f4bb0fef083e2c202c157dc054108553b6b950a43350eed7": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786119641.3103862
-    },
-    "0xad396f729d4af29a055281bb4cdd6431087600b76d2c0a308e71705659af7c02": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0xb8a9c27d04464591db6b88d80c738401e21639145966f8fdd30099ef1769303a": {
       "volume24hr": null,
@@ -23220,12 +23125,6 @@
       "end_date_iso": null,
       "fetched_at": 1786121436.6451664
     },
-    "0x40ff65a753ae933a0169157b90cbcd4722001e99487a8652e6e8332c3fda4cc8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x439b44d9521483f00a163c55f95f3c6146605ae8f90ccb8e25678edc7d32372e": {
       "volume24hr": null,
       "liquidity_num": null,
@@ -23237,12 +23136,6 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786118457.959213
-    },
-    "0x71953654035e571ddd321f0954a50b3481c548242d5712c3014b9ca99cd44457": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x72aaed93b5fb8d174e79fa80e85509ac84e0f2473577bf30f0a5e45e29558518": {
       "volume24hr": null,
@@ -23274,23 +23167,17 @@
       "end_date_iso": null,
       "fetched_at": 1786121733.0169482
     },
-    "0x8ee27c276a1bee094293751285d8a6697674b023196cb21fdd14bf3ca12f6ec0": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x8fbcb151e2c988df5a43abb02298014b7daf34c008f3eed9188dd16a2a19bec1": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786118135.3181
+      "fetched_at": 1786122645.673256
     },
     "0xb66968e713f9eddecd05fe825a838d5d554f5590335abb603cea2df9d65793c5": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0xced0cb8725bad43d78fda0cd0e5fa9e31804625cb3502b2c7897f8e8f7fa9e1f": {
       "volume24hr": null,
@@ -23380,7 +23267,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0xc95c1fd7919cb1e126e2d73c4473f1e92e68d32a1dd43008df1d9cd1144a6be7": {
       "volume24hr": null,
@@ -23410,13 +23297,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0xda3a1268601ed9db1065a0db38adc27a3e113330a660886e9df4569c7e22ede4": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0xfa12970fd2d973d1b0d4598b1e6cf8cbb7032da424a9fec037f65bdb59d9b16c": {
       "volume24hr": null,
@@ -23550,53 +23437,11 @@
       "end_date_iso": null,
       "fetched_at": 1786122346.4253683
     },
-    "0x00bb91a2f39d59ffaaf248b5b567f197878d30f9b5688c15453ba6b808322a78": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x033259b861db56278b30332703868d64ff0000000000000000000000000000": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x03535fdd85bef88da4b8572b31ab9397e80000000000000000000000000000": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786122058.203037
-    },
-    "0x035b7cc0833f825c4476352a1d5edeb870fc8250776803352177d44d34b03c6e": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x03f96d8b92f4a3480396604d0d7cd800df0000000000000000000000000000": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x041e577b8336acff9b32a586648e7ec9bccc53a725297cc0c14a19560f1d62ce": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x08ff91aadd1ace43abd9493d736d031a06b526e0f36f32a1589c21b6063a8270": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x09b17b04c6f130d6f4f1a4ad664b87b611ac613fd4c184dacf2600f5f334f273": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x0de1771ae65b480daead01f04c245e3d8ee22baa089f225ab6c5438dfb28953b": {
       "volume24hr": null,
@@ -23604,89 +23449,11 @@
       "end_date_iso": null,
       "fetched_at": 1786119040.6100113
     },
-    "0x0f5298c2eb10c9de47680da8b642f15c5b03148ec88edb7d8d66d5ce176f53a5": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x103e71c66e964ff47cdd5d31e8f2ec425426354e287b617c45183be7b874234b": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x10ecdce46d9a5c9697964e5695ab55d34d0cbba9067c6c83ed527c3888914a1c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x13debb2da7dad8328dfdaa8a58a38b18c245c174a5bc541b851a27d5a40ac985": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120836.9495447
-    },
-    "0x13e5055921f19410ef249f5a9e5e91bc1adbccaccaefb7840efa210c0a065c53": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x1571b6f8d61cb8dfb30f4200d5f1cf8070542bb9654f3483c2b2ec1097de8894": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x16b71e9f0a19b4705245bbb1647b20497c22787fe40710bf78b62bd0c2755af2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x1e38ddb29c5fb1b4965ba84a5b0e0f8ab3b43a8c223ec4fbe9e20ae7518d7eca": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x20da1bdbe081c1e49fed43bf2fe9b5d67d8c1b9bf2daf89676be143039ab86de": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x22d98d80d6b45ac96e7dc5f4f8f1b897d7ec8306fb4bea54c7428e3b718852d2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x249691a745d19311f2b934b7a1f28ae70ca8dcb2cc98c89ed33645016ffdd1c0": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x27f3e18c14d722d384fdc20f7ed0f7038b19d56d191b36da72762ebbf17f3081": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x29283b56d3eec6d1d89fff51793d9d2e01579d2379b1d3e9ebda175d3561e809": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2a3854606288815c10f9d72485846e8a4c09136b7b3f0e5c623175939d0b4cc1": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
+      "fetched_at": 1786122645.673256
     },
     "0x2b4dc09b93e79ef1debfe5ea4e522da79fb01b950796919fd72ccc423bc1f4c9": {
       "volume24hr": null,
@@ -23694,149 +23461,11 @@
       "end_date_iso": null,
       "fetched_at": 1786120836.9495447
     },
-    "0x2b72841d7ddf283c9364cad78288ecc0c4a57822cc742865e7927960d938d6b0": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2c4f79536d80ab68a22a4e05048543fb6bfe47d43421781bc7a0d3b20b0ccba1": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2c77e3c05e5b90e89d50a567f1fb752b8f7c70768ace2a1bd0ffc16dc7fd3133": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2ceb1841e013e99750175586cc7934dd6789ebb2e8c9435a9266b350428e85c8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2d27bca7f578b9cd51e263f4f7c08a53a2a342473cad91280f852dc32c2fb357": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x2fe7b818b7b4f2ae57a0c3cd330b18fe5ef85ebcb9f6d11de83b2de8c252a0b5": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x31a32f9ccbb8351086f79816d207d09b8d9f670b4c2994c96283de10d3ba7a5c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x325d6cd2dff474baf53e0717f038a1d55c676324d61dc0bebf07758bc24d9f83": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x32d6fe295704d1ddffea9b5b0e25ec9612a6c5c6c0742eecfcf9e46e15254695": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x35dc03ca5acab192fcc3caf2580028679e2449d2e6e7c2777e63a0c67e4b0cb1": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x3716ed022361fd2aee486860484ba9b765e269838f42196e26e2cf3e7caf2d36": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x37930364dacf30a7349c8692ead31a6506fbfac7d2e2afcbfca0248e9964ca3d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x3915d0983a336205378c62dab6e28ba54f29d1111b39aff3a6c9695d15c0ec0a": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x3fb2b67da2cf8af74383501b876125261f9fe76f95349a8599f26391c233242e": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x3fc6a2137f11342a341f430b00c558fc103829523bea97ec4b40d2be42451aad": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x400240dfdffcb1fbc60be81f1304cdc2d7b08fe54639b2778ce4c578fbf019e8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x420a6f518597d2a316477cf41bebcc3deb149203a7eedb785e31a4f0face810a": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786120836.9495447
-    },
-    "0x49045ce1611f11aba24c745978474e7c603729378eb3f5882692b8cecd912327": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x509d59995f7ce6fb1eec3eba448ced03c29c2ea7380d8e0ce9f38ee5f42d067d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x52a6f460683e6372d013bf9874ae802b6bdc0373880a6b0494f45493dfa6f110": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x5580edae48bd3c60354cd4cb71588e933c4003e6cbc89e037f974ac9206d7284": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x57e3d5fa446be1721a0471141dbf46982e9e25ce4fe80f0acee17d8e40ab32a4": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x582ea721452c141e3708da249e6cbaa175c607ebd5332af407706f151cfa5cd6": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x5d02cb8ef8fe6c50dd2d58283dfe5742b4f13cfa5acbaa4b75dc25a438c6594d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x5f80d85420881db8153c2d3391e4ddf77d3bfb5658c6e6924efb35e90959a24a": {
       "volume24hr": null,
@@ -23844,119 +23473,11 @@
       "end_date_iso": null,
       "fetched_at": 1786122058.203037
     },
-    "0x5fdd573dfcbf44ebee2d5e5c0bdc68eeda9cc490582a04e12310a6a83cb51b08": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x634f9b1d22ffd113337a5ca3eb6e0fb109c837e477dcda4bbee6dce30aa15bfa": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x66f26f18634d6cfe94e69fadd9e6abd3e531d42848f427acfd9d54bd0acba124": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x67f3f8d0a0ecdfc008c99650284a4674388a8c3029b0eb7ca0abd65dde8d996f": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x69366045ca68108d34ad7436760a709d22949ac250de44119c4f8734a47dc9e8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x6d6dfaa9d5a278ef2ef2952a33a4142f5a0d07db65aed83f43c44e42a64ec057": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x6df8f3cce81b1dd10ca17f4f6d58d52fac097e254b6f0e957bb48762d8b4b0c9": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x70d276e90ad58024452f0b15dae8747f72fc70fed888d084002e315e822ed1c6": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x7398b95ac4fc7f8b4ad0b2f8cbd14357e78abb0af47243c9bfeb3c9051be8cb8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x7450f1b4c29d357f408cb904953dcc450b8c76ff429bbdc6585570b0087a8523": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x7b24c7d66e16068a69a541b8aea998d5582f203526cf90068bc3952ce690ccd2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0x7bb654074e7e0239ad3eacb84bf2c8cb177ee3787a85122e7ab5d4507c7a3671": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786119340.7526815
-    },
-    "0x7edac319298560525a6a72fabd44fa411f66b96296d394c6734de64950916361": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x822a333e794e9539bfd6fbb66b822a3a27519146460a5ab5774de2f305409cb9": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x827a9b823396ec7122189393a387cd94d5e38ba510df081661a0b2719b69fc76": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x87b9b8d69f3d45bf24576e35afbd9ce9432b027c03bb46d937661b604f6c67e2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x8a8c5f61230110dbf8cb901ad65777e22d984f2bdc71ffe6b0af6c521bffe493": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x8c1bb731e1d3df3b63658807364b09246821f2e0c8a129524ade56767b25c76f": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x91825d67bb6ab578eb5a7f5a6d34d75d4c08f0671642b24e893e7b0015d6376d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x9272f40d0efca6d1e8d5dd132fd62513b13cbbd1a0dccf7ad82d515aef419377": {
       "volume24hr": null,
@@ -23964,137 +23485,11 @@
       "end_date_iso": null,
       "fetched_at": 1786122058.203037
     },
-    "0x940101f3bf5a0f15d77ef1facea0b5353e0a5982fcef3449233f971e50be76d2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x9b0a62568ac5f4ac2331898c048af000fac511d7515107cdb0ac33d29de71b5e": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x9d139d39961b4d2b1f2d77032d9ddb8513460e89a67e4fddb439a85d25715534": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x9d9c76ec5de476f1c98dc3225071931e5c9c6774e9e37d3c98c12473570df391": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0x9dc311bb550546f3da77c6196cf8622ef2f465ac7e5aa961d5725fa2a3630f71": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0xa0175624f76692c6558441346cdf4a5bf9ff700032192ff49119a0c2bd7a6ad7": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786121436.6451664
-    },
-    "0xa05dab0066c271727fbc2a4ae29af5041d5a05ca1cde4e2808181f64ecaf7c56": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xa0a4bd25cdbdb09d7d90d7fa1dab25d7cefcb0048cd9a78afbbf868b66c85815": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xa5d5bb05412dabcdaa33df102cf4b4fe7151d491bd5e3254e28dd222b6fbfb37": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xa6695907270fbc6050813ace2963e1def470ce4d6428815a53629b7db6cfb8b1": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xa6cd3ec80279c38d881ce9a70799e8324e6c0cd3cb96aedc423fe3b2c9edcb27": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xa88e7581c99a69764802e170a5f4ca28a01021971e14a6bdda1c0eb909d9b0bf": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xaa1ab9aff19a9de7b4aa59210fe4d2378e2a90c020a3571f46fed1f71d22dac9": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xabb0b7292b92ee3e96df9782c760a7cadb7b84a075276b4feb58fe89aa9b44c2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xb110e50fa2780cab87b3c05a1129861d37268046c7fd489a692e45abb4a1e6aa": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xb42726ca8eda8a64489bb13d842476d691b73d07c8019bcc92ea08f72429002c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xb847ba655060b51da89127494c1579bd9a5c38a643b4fa63d771c37636cdcf23": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xb8c38d8c27a1f1985c6f778e781b53d29ad203bb87ba620a43523fd70f148146": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xbca5e731880449b653673eece04fdc42578ecc33ac546febc623302506128734": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xbd7cd67470af1edb1b85c61888bc028a1e1197420cbb72d40ea14a443fdd3d67": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xc15a7548e3f5c17dd61cebeba2f105ce6a8c36e5dce50331ad308b26094c5a78": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xc3c873cd1cc3b91576e3cfe70d661768407bdac76fdf99e27b82c26ce06dd5a2": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0xc57a17e394aa17bbc77455b8eeb77b4c0406b36c97593089a9321b97398ba97f": {
       "volume24hr": null,
@@ -24102,179 +23497,11 @@
       "end_date_iso": null,
       "fetched_at": 1786121733.0169482
     },
-    "0xc88caa8cefaa5efe2ebd029f6db4133b2a36427c05520d04d6ab0709a99bd07c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xca2511d12aa94a61586712388c5fe93da58acec9944c1a79e0969d5c5870437e": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xca7fbf986cf64a98d8fa4ef560f45429d0316bde18e4444a94d3981cd55c93f1": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xca83016f3e4fba602f847afb3edfcaa9fb111228e6b9de86f3d44aa69861264a": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd10bc768ede58b53ed400594240b0a0603134a32dab89ec823a18759cbc180ca": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd1b7531f12f3d257e6a2c77c31c6f96975af8d80dfaa350425a6759439b457c0": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd3f5669bd88a124675979ee8bcfb84a57a5b1f911aa43d6c5855704f0d31de8d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd4ba56820e4a287a3997e780a592516228fb13a262ec56aea4141cd6a881d5d9": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd582a799cdbbb82ba01df7f9f5cc93781bc8044de5461904ce63211209c5799c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xd69b811efbf143f5eee39c1014724e1e9d97303dd81d3ea18fed994fa305ac2b": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xda19903324fcfa8490e5b7ec91ea359fc72d9ddbe3231090f4b9823a676cb61c": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xda847aee59051c2942790f25d540e23692ba021d759c246e0aba96b65a397ea8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xdb507cbdbb9feffe4a58cf1e41822a9f1a8bd00462c06dcc99dffbf2a5ee30dc": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xdf2ae64e2f60e775c3566770927c3f22a839933c3a7fbf6cae01eb62c4d3a71f": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xe1ec1a9ab8b9935bdfcfb118e0cd711771acb5ea74a7479c8cc590538937522a": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xe289d3fd8c6f0f5e9d85b1d5e082d5a399551c722bc893cd0545822c10c383d6": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xe53c8fd5be1ca062b3d70f6017c19e1cefdc0eaa79ed89e41b556e43dc637a94": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xe79ab91db5e9c6138541223259e91cfdd97e7d5750e8d5bb8c9d8c28bac1216d": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xe7d1c30ce2aabd4c4ddce042b04a5913a50994b1a303cae0215a4d292183d5a5": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xea030a9bed49e35a602c01435b1e035bcc8d73a283c2e6561d3ed3455ca090f8": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xea6b1e39eb673fa0fe7f678ee87663f250363349ca35941fe6a027100e004b11": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xec847f4f5a24c668194efa81d95925fecacffdee16b69714d0935270f63e7d80": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xede82bd7ce461816f67005e1142fa3b1302735080ac7d528592494b5b5c1ebd3": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xf0aac0973f752c17d8246a7de1eac3c667f348e1f99aeaacee69f4c29da76f94": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xf37dffc75385fc0124b44dee7d828c00d420c665181fafbff0a2b54b5363c772": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xf5adaa9276119757504dc0878560a0605f85972fd21e23fa2f21d16a98341b81": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
-    "0xfb0b73b8b75b7a5b16c8ef33527db8419eff97e0f886cbd16a8a2d22af350178": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
-    },
     "0xfcbf8d73c7b756aa9619c2b77d5aba574718b70ce394d7e979f98be4c78355c9": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786122058.203037
-    },
-    "0xfe55b0b4e029a1a65900ee536c359f91bea4ac7961c3d6dd923e96e9631f6b25": {
-      "volume24hr": null,
-      "liquidity_num": null,
-      "end_date_iso": null,
-      "fetched_at": 1786118135.3181
     },
     "0x01af9d52b86f64f8d7ca592d46c64b2a2653a1936a12c1ea4bda2e3b72365e99": {
       "volume24hr": null,
@@ -24406,7 +23633,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786118457.959213
+      "fetched_at": 1786122645.673256
     },
     "0x2b58f9e0973d5d0a4313182dc8fe670631b5163d7b5007af606c257d51d2f910": {
       "volume24hr": null,
@@ -24562,7 +23789,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786118457.959213
+      "fetched_at": 1786122645.673256
     },
     "0x61bfe4ef1054e3ef94024c915a59a47e781bdc3ef6c2e578119f7b440e84a4e6": {
       "volume24hr": null,
@@ -25030,7 +24257,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x2fb4a9035989c6678f9417a24baa12ff925a619e55771ae526c3a280b085a6f9": {
       "volume24hr": null,
@@ -25132,7 +24359,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0x5a24b05ba7478b8eab4a26475321ef66eabd2c715e5aa2f0e30d2f13e9a5f17d": {
       "volume24hr": null,
@@ -25252,7 +24479,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120836.9495447
+      "fetched_at": 1786122645.673256
     },
     "0x971fb54e59be7bc2514dce84fa80b6a20695444253add66e9e712afdf0df2bee": {
       "volume24hr": null,
@@ -25330,7 +24557,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0xb5938e8142a79f5c1620d4cd558c413dd8f78cf42c6a70ff121ab9f6c26dd981": {
       "volume24hr": null,
@@ -25882,7 +25109,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786119340.7526815
+      "fetched_at": 1786122645.673256
     },
     "0x7f3de1912a95fb2b2fba4edf1e852a34fc6d1d235e64f5c2b3d6dab644079c4b": {
       "volume24hr": null,
@@ -26086,7 +25313,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786119340.7526815
+      "fetched_at": 1786122645.673256
     },
     "0xcd733a764db6e47f663e23285d523f4884453db6659f3e3c0db810626a17408d": {
       "volume24hr": null,
@@ -26554,7 +25781,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120532.3927712
+      "fetched_at": 1786122645.673256
     },
     "0xadbfeaaa2dde320245c87642bb5995812339287ef93fa08bed1c202b533b3b64": {
       "volume24hr": null,
@@ -26812,7 +26039,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0x3f9368a8fcbc4d2f476d9d7d7d2b8e95eb7b73ae364b74855b737d4697ee4515": {
       "volume24hr": null,
@@ -26860,13 +26087,13 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121138.25933
+      "fetched_at": 1786122645.673256
     },
     "0x6227d92706c622460e292fbdc254430687ef5f21eac3ea4cc9af1e06bd045ee7": {
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0x7459898f990c577b52b0f69145acdd35d5952d1c728d651880f852922e8bfe38": {
       "volume24hr": null,
@@ -26974,7 +26201,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0xb4eafb92f9038d98b9d457cea6ba034a1d362d60e68766749accbc9bc8b73172": {
       "volume24hr": null,
@@ -27010,7 +26237,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120085.5720348
+      "fetched_at": 1786122645.673256
     },
     "0xbe6b8537c4134e97b3da276da5a34201063e50b35c007a602912ba208455fe3a": {
       "volume24hr": null,
@@ -27568,7 +26795,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786120258.0135436
+      "fetched_at": 1786122645.673256
     },
     "0xfc4402263cb6d4d5e672b8c7b31f500da9c91eb487e67e0db5e6d5008b4634a0": {
       "volume24hr": null,
@@ -28984,7 +28211,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121436.6451664
+      "fetched_at": 1786122645.673256
     },
     "0xca22917c4f4a87bd157ba7e053aa2d5788fd650f3074f64d7f10fe4b7d83e06e": {
       "volume24hr": null,
@@ -29800,7 +29027,7 @@
       "volume24hr": null,
       "liquidity_num": null,
       "end_date_iso": null,
-      "fetched_at": 1786121733.0169482
+      "fetched_at": 1786122645.673256
     },
     "0xc535f3592177c974a5162f667224b10613eaa1b610d2064d742b344245089364": {
       "volume24hr": null,
@@ -31037,6 +30264,234 @@
       "liquidity_num": null,
       "end_date_iso": null,
       "fetched_at": 1786122346.4253683
+    },
+    "0x02bd99c06186064a5c910e45a54990db031c5e2398f630eee0677890eeaf5b13": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x03304cf2ff52bb7a4710ed01a0063891fc0000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x033605aba6e2b7e793fec0891ae67e112a0000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x0341fd03a0284516473b093729c84a428f0000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x03744804bbcdc84ec384215e9081a24a6f0000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x0377b3cf7d056cb2cee94e7a7572a832f80000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x037d7fa9574735bc4e7bcb71849e85c6720000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x03b614c74ba3ceb7009d4f5335379045310000000000000000000000000000": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x03b81fb78cb3d05a423b8854a2efb51ae195264c2a5fd689d51f7132d40a423f": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x082e06655fbe6697a85d2d82f2b165b45c4d6780c3a62689da4c81d5170cd75d": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x120737ae3b128c41f1f712b4d7ef4acdfb6a13a95b1490fefe5ca62644b85bd4": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x1217906ea1a8b987d6109514502e38c3d1dd8d7d5a55319630d4a1287b367f31": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x16cc383d385dc5a4a086048f150afd6edd6d164c1802f409abd75f7988455643": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x18f1044f02c14a32d47e3d4be78f77fbd34104ac2ea72c7e68efe424aa75b57d": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x1f468b4ee5916771910aaf2c0257168f89de47e7fe870db76d6cc30424eb7e3b": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x22fe6dda94a80486c8821d76e2fe59a5c8f414c2b8d251ee3fe24a725922cd28": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x25d535b9f19e25232a887bf56642f9d72f6d6395be81a57ef328768f0fcb9c6d": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x2f9c52fdfaa9bc0ce5a8fff0e989a14f012ac89dae71028689e4e8829c72e6cf": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x3dbc09552ad38253faa6d58153c1d129aa073f12cef69a31e6eaed3e3ea38647": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x4404d5b473eeca8d35801061a89cf1a1d99e86d01515d9caec50314d6aa31386": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x6181ac0d59e70c9ed0629a2837e8d5a5ee9e968ce6592eceac4f857c2f59e077": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x6de4af1f5e5149cce7ba059ba6a756105c4f322fb77fee9f3df1d517a0c02f0e": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x82a345007b03af1498d3406cc32a9add5708c89508a6fe22213806d6ed8e770c": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x8418b53e3a7f99f077167f4b9cb5db8fc62acb6b7b0cad5f0d8c0ab0f3e2d509": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x9a240a568047146e9e67f8fdaa7991c4b5814dddffed33e83e7a9f8aef5a5245": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0x9eb02f0fec322b03fb159b2a2c2869fe829a246856bc0e7fae1e5c1387e264e4": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xa3c1c05d52f3d986e33f024926b5bd7897ba7b29862e61df551aa04ff2bf52e9": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xac001491a959f0739da47d5c8c7142a1ba1bb1430988c79f47601c4bf42a9fec": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xb07526bc46416bbc32a7193f50ef89a24a97606867f76f71973e2c292bf146ea": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xc1e9fedd2b5aab99f2875ca84c38e2be4ba4aaab673757a1bbd43bdd84d14610": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xc99852dbbb1955a6a7f92fd7047840c0840c198e21fb1dcf488c734a5cbee7bf": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xcd1a249265bc38863ac4622d48110daaab00328b0e49b8111c9b69214a9593aa": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xd0315081314399b2a03f93464e958bc6df2db16d1bfc4f73922ad4faa97434e6": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xd3c583e262c1ebd0b997b67936abe36d39f7e14718a0f7a15c6d75efa0485949": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xd595eb9b81885ff018738300c79047e3ec89e87294424f57a29a7fa9162bf116": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xdc510294df72e7f2cea6f3c15837630d579b430fbf88cf0341be9dc89ec8ade7": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xeb7f5e1211ed6d595430c1512867e6a2a9a1349583ca1198ca39279f04d955d2": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
+    },
+    "0xf8772ab2b41ef6f6912bbf991989b9394bcdc3b57ff1c3a4914c6eeb89a50d5d": {
+      "volume24hr": null,
+      "liquidity_num": null,
+      "end_date_iso": null,
+      "fetched_at": 1786122645.673256
     }
   },
   "alert_history": [],
